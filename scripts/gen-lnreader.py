@@ -41,6 +41,13 @@ def kotlin_string(value):
     return json.dumps(value)
 
 
+def kotlin_literal(value):
+    """A theme option as a Kotlin expression: strings, numbers and booleans as they are, lists as listOf(...)."""
+    if isinstance(value, list):
+        return "listOf(" + ", ".join(kotlin_literal(v) for v in value) + ")"
+    return json.dumps(value)
+
+
 def dead_sites(theme):
     """Sites of [theme] listed in scripts/dead-sites.txt as "<theme>/<id>  # why", which LNReader has not marked down."""
     path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "dead-sites.txt")
@@ -77,6 +84,8 @@ def main():
         ext_id = ident(source["id"])
         name = source["sourceName"]
         cls = class_name(name)
+        if cls == args.kotlin_theme:
+            cls += "Source"  # a class can't extend a theme of its own name
         base_url = source["sourceSite"].rstrip("/")
         out = os.path.join("src", lang, ext_id)
         if os.path.exists(out) and not args.force:
@@ -85,7 +94,7 @@ def main():
 
         os.makedirs(os.path.join(out, "src", *package.split(".")), exist_ok=True)
         extra = "".join(
-            f", {param} = {json.dumps(options[opt])}"
+            f", {param} = {kotlin_literal(options[opt])}"
             for opt, param in option_args.items() if opt in options
         )
         filters = os.path.join(theme_dir, "filters", source["id"] + ".json")
