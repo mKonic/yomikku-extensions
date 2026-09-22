@@ -39,6 +39,15 @@ def kotlin_string(value):
     return json.dumps(value)
 
 
+def dead_sites(theme):
+    """Sites of [theme] listed in scripts/dead-sites.txt as "<theme>/<id>  # why", which LNReader has not marked down."""
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "dead-sites.txt")
+    if not os.path.exists(path):
+        return set()
+    entries = (line.split("#", 1)[0].strip() for line in open(path))
+    return {entry.split("/", 1)[1] for entry in entries if entry.startswith(theme + "/")}
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("lnreader")
@@ -54,12 +63,13 @@ def main():
     icons_dir = os.path.join(args.lnreader, "public", "static", "multisrc", args.theme)
     sources = json.load(open(os.path.join(theme_dir, "sources.json")))
     only = set(args.only.split(",")) if args.only else None
+    skip = dead_sites(args.theme)
     option_args = dict(pair.split("=") for pair in args.option_args.split(",") if pair)
 
     written = 0
     for source in sources:
         options = source.get("options", {})
-        if options.get("down") or (only and source["id"] not in only):
+        if options.get("down") or source["id"] in skip or (only and source["id"] not in only):
             continue
         lang = LANGS.get(options.get("lang", "English"), "all")
         ext_id = ident(source["id"])

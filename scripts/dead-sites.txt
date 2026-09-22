@@ -1,0 +1,27 @@
+# Sites LNReader still lists as up that do not work, checked against the live site. The generator skips them.
+madara/1stkissnovel  # parked ad-redirect page
+madara/azora  # 404 on the listing
+madara/azraznovel  # 404 on the listing
+madara/dragonholic  # "We Have Moved" page
+madara/ekitaplar  # no longer Madara
+madara/fanstranslations  # TLS handshake fails
+madara/fortuneeternal  # 403 without a challenge
+madara/hangulplanet  # 404 on the listing
+madara/Kakikata  # domain does not resolve
+madara/lunarletters  # connection times out
+madara/massnovel  # moved to novelfrance.fr, no longer Madara
+madara/mostnovel  # domain redirects to a gambling site
+madara/mysticalmerries  # domain redirects to a spam page
+madara/neosekaiTLS  # TLS handshake fails
+madara/nitromanga  # parked ad-redirect page
+madara/novelbookid  # parked ad-redirect page
+madara/novelmultiverse  # "Loading..." shell, no listing
+madara/novelpdf  # Cloudflare 522, origin down
+madara/panchotranslations  # domain expired
+madara/ragnarscans  # moved to ragnarscans.net, no novels listed
+madara/readfanfic  # parked ad-redirect page
+madara/salmonlatte  # Cloudflare 525, origin down
+madara/traducciones  # 404 on the listing
+madara/wooksteahouse  # domain redirects to a spam page
+madara/wordexcerpt  # no longer Madara
+madara/zetroTL  # "Zetro is moving" page

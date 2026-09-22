@@ -184,9 +184,13 @@ abstract class Madara(
             ?: document.selectFirst(".c-blog-post > div > div:nth-child(2)")
             ?: throw Exception("No chapter text found")
         content.select("script, style, ins, noscript, iframe, .code-block, .adsbygoogle, .readaloud-widget").remove()
+        cleanChapterText(content)
         content.select("img").forEach { img -> img.imageUrl()?.let { img.attr("src", it) } }
         return content.html()
     }
+
+    /** Site-specific cleanup of a chapter's content, after the theme's own. */
+    protected open fun cleanChapterText(content: Element) = Unit
 
     // Helpers
 
