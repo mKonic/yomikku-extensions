@@ -47,3 +47,11 @@ fictioneer/lilyonthevalley  # connection fails
 fictioneer/penguinsquad  # no longer Fictioneer
 fictioneer/prizmatranslation  # domain expired
 fictioneer/cherrymistcafe  # no longer Fictioneer
+mtlnovel/mtlnovel  # mtlnovels.com is parked (ad-click redirects) on every language host
+mtlnovel/mtlnovel-fr  # parked, as above
+mtlnovel/mtlnovel-es  # parked, as above
+mtlnovel/mtlnovel-id  # parked, as above
+mtlnovel/mtlnovel-pt  # parked, as above
+mtlnovel/mtlnovel-ru  # parked, as above
+readwn/ltnovel  # connection fails
+readwn/wuxiamtl  # the same site as fannovel (fanmtl.com), which has its own extension
