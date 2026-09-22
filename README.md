@@ -4,7 +4,7 @@ Novel sources for [Yomikku](https://github.com/mKonic/yomikku), ported to Kotlin
 
 ## Adding the store
 
-In Yomikku, open Browse → Extensions → Extension repos and add:
+Yomikku adds this store on its own. To add it again after removing it, open Browse → Extensions → ⋮ → Extension stores, tap Add extension store and enter:
 
 ```
 https://raw.githubusercontent.com/mKonic/yomikku-extensions/repo/index.min.json
@@ -16,7 +16,7 @@ https://raw.githubusercontent.com/mKonic/yomikku-extensions/repo/index.min.json
 ./gradlew assembleRelease
 ```
 
-Each extension is a module under `src/<lang>/<name>`. Sites that share a theme are generated from `lib-multisrc/<theme>` with `scripts/gen-lnreader.py`.
+Each extension is a module under `src/<lang>/<name>`. Sites that share a theme extend `lib-multisrc/<theme>` and are generated from an LNReader plugins checkout with `scripts/gen-lnreader.py`.
 
 ## License
 
