@@ -3,9 +3,10 @@ plugins {
 }
 
 yomikkuTheme {
-    baseVersionCode = 2
+    baseVersionCode = 3
 }
 
 dependencies {
     api(project(":lib:lnfilters"))
+    api(project(":lib:wpcommon"))
 }

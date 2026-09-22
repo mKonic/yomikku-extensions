@@ -1,6 +1,9 @@
 package app.yomikku.multisrc.madara
 
 import app.yomikku.lib.lnfilters.LnFilters
+import app.yomikku.lib.wpcommon.WpCommon
+import app.yomikku.lib.wpcommon.WpCommon.checkBlocked
+import app.yomikku.lib.wpcommon.WpCommon.imageUrl
 import eu.kanade.tachiyomi.network.GET
 import eu.kanade.tachiyomi.network.POST
 import eu.kanade.tachiyomi.network.awaitSuccess
@@ -15,10 +18,7 @@ import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.Request
 import okhttp3.Response
 import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
-import java.text.SimpleDateFormat
-import java.util.Calendar
 import java.util.Locale
 
 /**
@@ -74,7 +74,7 @@ abstract class Madara(
     override fun searchMangaParse(response: Response) = novelsParse(response)
 
     protected open fun novelsParse(response: Response): MangasPage {
-        val document = response.asJsoup().checkBlocked(response)
+        val document = response.asJsoup().checkBlocked(response, baseUrl)
         document.select(".manga-title-badges").remove()
         val novels = document.select(".page-item-detail, .c-tabs-item__content").mapNotNull { element ->
             val link = element.selectFirst(".post-title a") ?: return@mapNotNull null
@@ -94,7 +94,7 @@ abstract class Madara(
     // Details
 
     override fun mangaDetailsParse(response: Response): SManga {
-        val document = response.asJsoup().checkBlocked(response)
+        val document = response.asJsoup().checkBlocked(response, baseUrl)
         document.select(".manga-title-badges, #manga-title span").remove()
         return SManga.create().apply {
             title = document.selectFirst(".post-title h1, #manga-title h1, .manga-title")?.text()?.trim().orEmpty()
@@ -179,39 +179,20 @@ abstract class Madara(
     // Text
 
     override fun chapterTextParse(response: Response): String {
-        val document = response.asJsoup().checkBlocked(response)
+        val document = response.asJsoup().checkBlocked(response, baseUrl)
         val content = document.selectFirst(".text-left, .text-right, .entry-content, .reading-content")
             ?: document.selectFirst(".c-blog-post > div > div:nth-child(2)")
             ?: throw Exception("No chapter text found")
         content.select("script, style, ins, noscript, iframe, .code-block, .adsbygoogle, .readaloud-widget").remove()
-        cleanChapterText(content)
+        cleanChapterText(content, response.request.url.toString())
         content.select("img").forEach { img -> img.imageUrl()?.let { img.attr("src", it) } }
         return content.html()
     }
 
-    /** Site-specific cleanup of a chapter's content, after the theme's own. */
-    protected open fun cleanChapterText(content: Element) = Unit
+    /** Site-specific cleanup of a chapter's content, after the theme's own. [url] is the chapter page's. */
+    protected open fun cleanChapterText(content: Element, url: String) = Unit
 
     // Helpers
-
-    /**
-     * The site answered with a challenge page instead of content. Opening it in the app's WebView usually clears it.
-     */
-    private fun Document.checkBlocked(response: Response): Document {
-        val siteHost = baseUrl.toHttpUrl().host.removePrefix("www.")
-        val finalHost = response.request.url.host.removePrefix("www.")
-        if (title().trim() in CHALLENGE_TITLES || !finalHost.endsWith(siteHost)) {
-            throw Exception("Captcha error, please open in WebView")
-        }
-        return this
-    }
-
-    protected fun Element.imageUrl(): String? {
-        val url = absUrl("data-lazy-src").ifEmpty { absUrl("data-src") }
-            .ifEmpty { attr("data-lazy-srcset").substringBefore(' ') }
-            .ifEmpty { absUrl("src") }
-        return url.ifEmpty { null }
-    }
 
     private fun Element.wholeTextParagraphs(): String? {
         val paragraphs = select("p").map { it.text().trim() }.filter { it.isNotEmpty() }
@@ -225,24 +206,7 @@ abstract class Madara(
         else -> SManga.UNKNOWN
     }
 
-    /** Dates are either absolute ("March 3, 2024") or relative ("3 days ago"), in the site's language. */
-    protected open fun parseDate(text: String): Long {
-        val trimmed = text.trim()
-        val number = Regex("\\d+").find(trimmed)?.value?.toIntOrNull()
-        val calendar = Calendar.getInstance()
-        val unit = RELATIVE_UNITS.entries.firstOrNull { (_, words) -> words.any { trimmed.contains(it, true) } }?.key
-        if (number != null && unit != null) {
-            calendar.add(unit, -number)
-            return calendar.timeInMillis
-        }
-        return DATE_FORMATS.firstNotNullOfOrNull { format ->
-            try {
-                SimpleDateFormat(format, Locale.ENGLISH).parse(trimmed)?.time
-            } catch (_: Exception) {
-                null
-            }
-        } ?: 0L
-    }
+    protected open fun parseDate(text: String): Long = WpCommon.parseDate(text, Locale.forLanguageTag(lang))
 
     companion object {
         private const val PAGE_SIZE_HINT = 10
@@ -254,21 +218,5 @@ abstract class Madara(
         private val STATUS_LABELS = setOf("Status", "Novel", "Estado", "Durum")
         private val ONGOING = listOf("OnGoing", "Ongoing", "مستمرة", "En curso", "Devam", "Berlangsung")
         private val COMPLETED = listOf("Completed", "Complete", "مكتملة", "Completado", "Tamamlandı", "Tamat")
-
-        private val CHALLENGE_TITLES = setOf(
-            "Bot Verification", "You are being redirected...", "Un instant...", "Just a moment...", "Redirecting...",
-        )
-
-        private val RELATIVE_UNITS = mapOf(
-            Calendar.SECOND to listOf("detik", "segundo", "second", "วินาที"),
-            Calendar.MINUTE to listOf("menit", "dakika", "min", "minute", "minuto", "นาที", "دقائق"),
-            Calendar.HOUR to listOf("jam", "saat", "heure", "hora", "hour", "ชั่วโมง", "giờ", "ore", "ساعة", "小时"),
-            Calendar.DAY_OF_YEAR to listOf("hari", "gün", "jour", "día", "dia", "day", "วัน", "ngày", "giorni", "أيام", "天"),
-            Calendar.WEEK_OF_YEAR to listOf("week", "semana"),
-            Calendar.MONTH to listOf("month", "mes"),
-            Calendar.YEAR to listOf("year", "año"),
-        )
-
-        private val DATE_FORMATS = listOf("MMMM d, yyyy", "MMMM dd, yyyy", "dd/MM/yyyy", "MM/dd/yyyy", "yyyy-MM-dd", "d MMMM yyyy")
     }
 }

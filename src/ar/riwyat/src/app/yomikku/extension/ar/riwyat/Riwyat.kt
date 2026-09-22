@@ -7,7 +7,7 @@ class Riwyat : Madara("Riwyat", "https://cenele.com", "ar", useNewChapterEndpoin
     override val filtersResource = "filters.json"
 
     // Invisible text the site scatters through chapters to spoil copies.
-    override fun cleanChapterText(content: Element) {
+    override fun cleanChapterText(content: Element, url: String) {
         content.select("span[style*=\"opacity: 0; position: fixed;\"], [role=presentation]").remove()
     }
 }
