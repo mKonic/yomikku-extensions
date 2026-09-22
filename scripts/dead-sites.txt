@@ -55,3 +55,6 @@ mtlnovel/mtlnovel-pt  # parked, as above
 mtlnovel/mtlnovel-ru  # parked, as above
 readwn/ltnovel  # connection fails
 readwn/wuxiamtl  # the same site as fannovel (fanmtl.com), which has its own extension
+hotnovelpub/hotnovelpub  # connection fails
+hotnovelpub/eznovels  # domain redirects to a spam page
+rulate/erolate-api  # Cloudflare 522, origin down
