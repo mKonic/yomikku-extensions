@@ -14,6 +14,8 @@ import os
 import re
 import shutil
 
+from PIL import Image
+
 LANGS = {
     "English": "en", "Turkish": "tr", "Arabic": "ar", "Indonesian": "id", "Spanish": "es", "Thai": "th",
     "French": "fr", "Portuguese": "pt", "Korean": "ko", "Russian": "ru", "Chinese": "zh", "Japanese": "ja",
@@ -106,7 +108,8 @@ def main():
             icon = os.path.join(icons_dir, source["id"].lower(), "icon.png")
         if os.path.exists(icon):
             os.makedirs(os.path.join(out, "res", "mipmap-xxxhdpi"), exist_ok=True)
-            shutil.copy(icon, os.path.join(out, "res", "mipmap-xxxhdpi", "ic_launcher.png"))
+            # Some LNReader icons are JPEGs named .png, which aapt refuses in release builds.
+            Image.open(icon).save(os.path.join(out, "res", "mipmap-xxxhdpi", "ic_launcher.png"), "PNG")
         else:
             print(f"no icon for {source['id']}")
         with open(os.path.join(out, "build.gradle.kts"), "w") as f:
