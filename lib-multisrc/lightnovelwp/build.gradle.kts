@@ -3,7 +3,7 @@ plugins {
 }
 
 yomikkuTheme {
-    baseVersionCode = 1
+    baseVersionCode = 2
 }
 
 dependencies {

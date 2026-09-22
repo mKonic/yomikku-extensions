@@ -79,13 +79,24 @@ object LnFilters {
 
     data class Option(val label: String, val value: String)
 
-    class Picker(val key: String, name: String, val options: List<Option>, default: String) :
+    /**
+     * A single choice. LNReader leaves a picker unset with a default that is none of its options (usually ""); that
+     * becomes an "Any" entry, so the picker doesn't start on its first option and filter by it.
+     */
+    class Picker private constructor(val key: String, name: String, val options: List<Option>, default: String) :
         Filter.Select<String>(
             name,
             options.map { it.label }.toTypedArray(),
             options.indexOfFirst { it.value == default }.coerceAtLeast(0),
         ) {
         val selected: String get() = options.getOrNull(state)?.value.orEmpty()
+
+        companion object {
+            operator fun invoke(key: String, name: String, options: List<Option>, default: String): Picker {
+                val all = if (options.any { it.value == default }) options else listOf(Option("Any", default)) + options
+                return Picker(key, name, all, default)
+            }
+        }
     }
 
     class Text(val key: String, name: String, default: String) : Filter.Text(name, default)
