@@ -1,0 +1,65 @@
+{
+  "genres": {
+    "type": "Picker",
+    "label": "Genre",
+    "value": "",
+    "options": [
+      {
+        "label": "Sci-Fi",
+        "value": "scifi"
+      },
+      {
+        "label": "Fantasy",
+        "value": "fantasy"
+      },
+      {
+        "label": "Adventure",
+        "value": "adventure"
+      },
+      {
+        "label": "Mystery",
+        "value": "mystery"
+      },
+      {
+        "label": "Action",
+        "value": "action"
+      },
+      {
+        "label": "Horror",
+        "value": "horror"
+      },
+      {
+        "label": "Humor",
+        "value": "humor"
+      },
+      {
+        "label": "Erotica",
+        "value": "erotica"
+      },
+      {
+        "label": "Poetry",
+        "value": "poetry"
+      },
+      {
+        "label": "Other",
+        "value": "other"
+      },
+      {
+        "label": "Thriller",
+        "value": "thriller"
+      },
+      {
+        "label": "Romance",
+        "value": "romance"
+      },
+      {
+        "label": "Children",
+        "value": "children"
+      },
+      {
+        "label": "Drama",
+        "value": "drama"
+      }
+    ]
+  }
+}
