@@ -31,6 +31,11 @@ object Paced {
                 }
                 return response
             }
+            // A Cloudflare challenge only clears in a browser, and asking again makes it last longer.
+            if (response.header("cf-mitigated") == "challenge") {
+                response.close()
+                throw Exception("Captcha error, please open in WebView")
+            }
             val wait = response.header("Retry-After")?.toLongOrNull()?.times(1000) ?: (3000L * (attempt + 1))
             response.close()
             delay(wait)
