@@ -1,0 +1,371 @@
+{
+  "orderBy": {
+    "value": "views",
+    "label": "Order by",
+    "options": [
+      {
+        "label": "Default Order",
+        "value": ""
+      },
+      {
+        "label": "Most Viewed",
+        "value": "views"
+      },
+      {
+        "label": "Latest Updated",
+        "value": "latest"
+      },
+      {
+        "label": "Most Popular",
+        "value": "popular"
+      },
+      {
+        "label": "A-Z",
+        "value": "alphabetical"
+      },
+      {
+        "label": "Highest Rating",
+        "value": "rating"
+      },
+      {
+        "label": "Most Chapters",
+        "value": "chapters"
+      }
+    ],
+    "type": "Picker"
+  },
+  "status": {
+    "value": "all",
+    "label": "Status",
+    "options": [
+      {
+        "label": "All",
+        "value": "all"
+      },
+      {
+        "label": "Ongoing",
+        "value": "ongoing"
+      },
+      {
+        "label": "Completed",
+        "value": "completed"
+      },
+      {
+        "label": "Hiatus",
+        "value": "hiatus"
+      },
+      {
+        "label": "Cancelled",
+        "value": "cancelled"
+      }
+    ],
+    "type": "Picker"
+  },
+  "genre": {
+    "value": {
+      "include": [],
+      "exclude": []
+    },
+    "label": "Genres (OR, not AND)",
+    "options": [
+      {
+        "label": "Action",
+        "value": "action"
+      },
+      {
+        "label": "ActionAdventure",
+        "value": "actionadventure"
+      },
+      {
+        "label": "Adult",
+        "value": "adult"
+      },
+      {
+        "label": "Adventure",
+        "value": "adventure"
+      },
+      {
+        "label": "Comedy",
+        "value": "comedy"
+      },
+      {
+        "label": "Drama",
+        "value": "drama"
+      },
+      {
+        "label": "Eastern",
+        "value": "eastern"
+      },
+      {
+        "label": "Easterni",
+        "value": "easterni"
+      },
+      {
+        "label": "Ecchi",
+        "value": "ecchi"
+      },
+      {
+        "label": "Fan-Fiction",
+        "value": "fan-fiction"
+      },
+      {
+        "label": "Fantasy",
+        "value": "fantasy"
+      },
+      {
+        "label": "Game",
+        "value": "game"
+      },
+      {
+        "label": "Games",
+        "value": "games"
+      },
+      {
+        "label": "Gender Bender",
+        "value": "gender-bender"
+      },
+      {
+        "label": "Harem",
+        "value": "harem"
+      },
+      {
+        "label": "Historical",
+        "value": "historical"
+      },
+      {
+        "label": "Horror",
+        "value": "horror"
+      },
+      {
+        "label": "Isekai",
+        "value": "isekai"
+      },
+      {
+        "label": "Josei",
+        "value": "josei"
+      },
+      {
+        "label": "Lolicon",
+        "value": "lolicon"
+      },
+      {
+        "label": "Magic",
+        "value": "magic"
+      },
+      {
+        "label": "Martial Arts",
+        "value": "martial-arts"
+      },
+      {
+        "label": "Mature",
+        "value": "mature"
+      },
+      {
+        "label": "Mecha",
+        "value": "mecha"
+      },
+      {
+        "label": "Military",
+        "value": "military"
+      },
+      {
+        "label": "Modern Life",
+        "value": "modern-life"
+      },
+      {
+        "label": "Movies",
+        "value": "movies"
+      },
+      {
+        "label": "Mystery",
+        "value": "mystery"
+      },
+      {
+        "label": "Psychologic",
+        "value": "psychologic"
+      },
+      {
+        "label": "Psychological",
+        "value": "psychological"
+      },
+      {
+        "label": "Reincarnatio",
+        "value": "reincarnatio"
+      },
+      {
+        "label": "Reincarnation",
+        "value": "reincarnation"
+      },
+      {
+        "label": "Romanc",
+        "value": "romanc"
+      },
+      {
+        "label": "Romance",
+        "value": "romance"
+      },
+      {
+        "label": "Romance.Adventure",
+        "value": "romance-adventure"
+      },
+      {
+        "label": "RomanceAdventure",
+        "value": "romanceadventure"
+      },
+      {
+        "label": "Romance.Harem",
+        "value": "romance-harem"
+      },
+      {
+        "label": "RomanceHarem",
+        "value": "romanceharem"
+      },
+      {
+        "label": "Romance.Smut",
+        "value": "romance-smut"
+      },
+      {
+        "label": "Romancei",
+        "value": "romancei"
+      },
+      {
+        "label": "Romancem",
+        "value": "romancem"
+      },
+      {
+        "label": "School Life",
+        "value": "school-life"
+      },
+      {
+        "label": "Sci-fi",
+        "value": "sci-fi"
+      },
+      {
+        "label": "Seinen",
+        "value": "seinen"
+      },
+      {
+        "label": "Seinen Wuxia",
+        "value": "seinen-wuxia"
+      },
+      {
+        "label": "Shoujo",
+        "value": "shoujo"
+      },
+      {
+        "label": "Shoujo Ai",
+        "value": "shoujo-ai"
+      },
+      {
+        "label": "Shounen",
+        "value": "shounen"
+      },
+      {
+        "label": "Shounen Ai",
+        "value": "shounen-ai"
+      },
+      {
+        "label": "Slice of Lif",
+        "value": "slice-of-lif"
+      },
+      {
+        "label": "Slice Of Life",
+        "value": "slice-of-life"
+      },
+      {
+        "label": "Slice of Lifel",
+        "value": "slice-of-lifel"
+      },
+      {
+        "label": "Smut",
+        "value": "smut"
+      },
+      {
+        "label": "Sports",
+        "value": "sports"
+      },
+      {
+        "label": "Superna",
+        "value": "superna"
+      },
+      {
+        "label": "Supernatural",
+        "value": "supernatural"
+      },
+      {
+        "label": "System",
+        "value": "system"
+      },
+      {
+        "label": "Thriller",
+        "value": "thriller"
+      },
+      {
+        "label": "Tragedy",
+        "value": "tragedy"
+      },
+      {
+        "label": "Urban",
+        "value": "urban"
+      },
+      {
+        "label": "Urban Life",
+        "value": "urban-life"
+      },
+      {
+        "label": "Wuxia",
+        "value": "wuxia"
+      },
+      {
+        "label": "Xianxia",
+        "value": "xianxia"
+      },
+      {
+        "label": "Xuanhuan",
+        "value": "xuanhuan"
+      },
+      {
+        "label": "Yaoi",
+        "value": "yaoi"
+      },
+      {
+        "label": "Yuri",
+        "value": "yuri"
+      }
+    ],
+    "type": "XCheckbox"
+  },
+  "min_ch": {
+    "value": "",
+    "label": "Minimum Chapters",
+    "type": "Text"
+  },
+  "max_ch": {
+    "label": "Maximum Chapters",
+    "value": "",
+    "type": "Text"
+  },
+  "demo": {
+    "value": [],
+    "label": "Demographics",
+    "options": [
+      {
+        "label": "Shounen",
+        "value": "shounen"
+      },
+      {
+        "label": "Shoujo",
+        "value": "shoujo"
+      },
+      {
+        "label": "Seinen",
+        "value": "seinen"
+      },
+      {
+        "label": "Josei",
+        "value": "josei"
+      }
+    ],
+    "type": "Checkbox"
+  }
+}
