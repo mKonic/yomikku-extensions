@@ -1,0 +1,29 @@
+{
+  "sort": {
+    "label": "Sort by",
+    "value": "count",
+    "options": [
+      {
+        "label": "Most chapters (popular)",
+        "value": "count"
+      },
+      {
+        "label": "Trending (views)",
+        "value": "trending"
+      },
+      {
+        "label": "Latest uploaded",
+        "value": "id"
+      },
+      {
+        "label": "A → Z",
+        "value": "name_asc"
+      },
+      {
+        "label": "Z → A",
+        "value": "name_desc"
+      }
+    ],
+    "type": "Picker"
+  }
+}
