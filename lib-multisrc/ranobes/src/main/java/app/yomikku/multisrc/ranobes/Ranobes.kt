@@ -174,7 +174,7 @@ abstract class Ranobes(
     }
 
     companion object {
-        private const val PAGE_DELAY_MS = 1000L
+        private const val PAGE_DELAY_MS = 5000L
         private val NOVEL_ID = Regex("""^(\d+)-""")
         private val BACKGROUND_URL = Regex("""url\(['"]?(.*?)['"]?\)""")
         private val CHAPTER_LIST = Regex("""https?://[^/]+/chapters/[^/]+/""")
