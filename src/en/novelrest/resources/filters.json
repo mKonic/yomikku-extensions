@@ -1,0 +1,48 @@
+{
+  "status": {
+    "type": "Picker",
+    "label": "Status",
+    "value": "",
+    "options": [
+      {
+        "label": "All",
+        "value": ""
+      },
+      {
+        "label": "Ongoing",
+        "value": "ONGOING"
+      },
+      {
+        "label": "Completed",
+        "value": "COMPLETED"
+      },
+      {
+        "label": "Hiatus",
+        "value": "HIATUS"
+      }
+    ]
+  },
+  "sort": {
+    "type": "Picker",
+    "label": "Sort By",
+    "value": "latest",
+    "options": [
+      {
+        "label": "Latest",
+        "value": "latest"
+      },
+      {
+        "label": "Popular",
+        "value": "popular"
+      },
+      {
+        "label": "Rating",
+        "value": "rating"
+      },
+      {
+        "label": "Updated",
+        "value": "updated"
+      }
+    ]
+  }
+}
