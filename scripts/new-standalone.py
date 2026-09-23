@@ -9,6 +9,7 @@ usage: scripts/new-standalone.py <lnreader-plugins checkout> <plugin .ts path, r
 import argparse
 import json
 import os
+import re
 import subprocess
 import sys
 
@@ -37,7 +38,7 @@ def main():
     plugin = os.path.join(args.lnreader, "plugins", args.plugin)
     source = open(plugin).read()
     libs = [lib for lib in args.libs.split(",") if lib]
-    if "filters = {" in source:
+    if re.search(r"\bfilters\s*(?::\s*[\w<>| ]+)?=\s*\{", source):
         os.makedirs(os.path.join(out, "resources"))
         script = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ts-filters.py")
         subprocess.run([sys.executable, script, plugin, os.path.join(out, "resources", "filters.json")], check=True)

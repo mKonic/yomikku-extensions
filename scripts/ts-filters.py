@@ -15,6 +15,8 @@ FILTER_TYPES = {
     "TextInput": "Text", "Picker": "Picker", "CheckboxGroup": "Checkbox", "Switch": "Switch",
     "ExcludableCheckboxGroup": "XCheckbox",
 }
+# `filters = {` or `filters: Filters = {`.
+FILTERS = r"\bfilters\s*(?::\s*[\w<>| ]+)?=\s*\{"
 ESCAPES = {"n": "\n", "t": "\t", "r": "\r"}
 
 
@@ -91,7 +93,7 @@ def to_json(literal):
 
 def main():
     source = open(sys.argv[1]).read()
-    match = re.search(r"\bfilters\s*=\s*\{", source)
+    match = re.search(FILTERS, source)
     if not match:
         sys.exit("no filters in " + sys.argv[1])
     filters = to_json(object_literal(source, match.end() - 1))
