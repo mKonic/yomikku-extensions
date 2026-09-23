@@ -111,8 +111,8 @@ class Wuxiaworld : HttpSource() {
             SChapter.create().apply {
                 url = "${manga.url}${item.string(3)}"
                 name = (if (locked) "🔒 " else "") + item.string(2).orEmpty()
-                // The site's own number reads book 1 chapter 1 as 1.001; the offset just counts up.
-                chapter_number = item.int(17)?.toFloat() ?: number.toFloat()
+                // The site's own number reads book 1 chapter 1 as 1.001; the offset just counts up (from 0, which proto3 leaves out).
+                chapter_number = (item.int(17) ?: 0).toFloat()
                 date_upload = (item.message(18)?.long(1) ?: 0L) * 1000
             }
         }.reversed()
