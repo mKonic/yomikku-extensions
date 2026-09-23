@@ -1,11 +1,10 @@
 package app.yomikku.multisrc.readnovelfull
 
 import app.yomikku.lib.lnfilters.LnFilters
+import app.yomikku.lib.paced.Paced
 import app.yomikku.lib.wpcommon.WpCommon.imageUrl
 import eu.kanade.tachiyomi.network.GET
-import eu.kanade.tachiyomi.network.HttpException
 import eu.kanade.tachiyomi.network.POST
-import eu.kanade.tachiyomi.network.await
 import eu.kanade.tachiyomi.network.awaitSuccess
 import eu.kanade.tachiyomi.source.model.FilterList
 import eu.kanade.tachiyomi.source.model.MangasPage
@@ -258,8 +257,8 @@ abstract class ReadNovelFull(
                 .addQueryParameter("page", page.toString())
                 .addQueryParameter("pageSize", PAGE_SIZE.toString())
                 .build()
-            if (page > 1) delay(PAGE_DELAY_MS)
-            val json = fetchPaced(GET(url, headers)).use { Json.parseToJsonElement(it.body.string()) }
+            if (page > 1) delay(Paced.PAGE_DELAY_MS)
+            val json = Paced.fetch(client, GET(url, headers)).use { Json.parseToJsonElement(it.body.string()) }
             val html = json.jsonObject["html"]?.jsonPrimitive?.content.orEmpty()
             totalPages = json.jsonObject["totalPage"]?.jsonPrimitive?.int ?: totalPages
             Jsoup.parse(html, baseUrl).select("a[href]").mapTo(chapters) {
@@ -268,27 +267,6 @@ abstract class ReadNovelFull(
             page++
         } while (page <= totalPages)
         return chapters
-    }
-
-    /**
-     * The sites answer 429 to a burst of chapter-list pages. Waits as long as the site asks (Retry-After), or a
-     * little longer each time, before trying again.
-     */
-    private suspend fun fetchPaced(request: Request): Response {
-        repeat(MAX_ATTEMPTS) { attempt ->
-            val response = client.newCall(request).await()
-            if (response.code != 429) {
-                if (!response.isSuccessful) {
-                    response.close()
-                    throw HttpException(response.code)
-                }
-                return response
-            }
-            val wait = response.header("Retry-After")?.toLongOrNull()?.times(1000) ?: (3000L * (attempt + 1))
-            response.close()
-            delay(wait)
-        }
-        throw HttpException(429)
     }
 
     private fun chapter(href: String, title: String) = SChapter.create().apply {
@@ -313,8 +291,6 @@ abstract class ReadNovelFull(
 
     companion object {
         private const val PAGE_SIZE = 40
-        private const val PAGE_DELAY_MS = 150L
-        private const val MAX_ATTEMPTS = 4
 
         /** Ads, scripts, unlock prompts and the reader widgets the sites put inside the chapter. */
         private const val JUNK = "script, style, ins, noscript, iframe, sub, .reader-ad-skip, div[class*=ads], " +
