@@ -1,0 +1,175 @@
+{
+  "genres": {
+    "label": "Genres",
+    "value": "",
+    "options": [
+      {
+        "label": "All",
+        "value": ""
+      },
+      {
+        "label": "Action",
+        "value": "action"
+      },
+      {
+        "label": "Adventure",
+        "value": "adventure"
+      },
+      {
+        "label": "Comedy",
+        "value": "comedy"
+      },
+      {
+        "label": "Light Novel",
+        "value": "light-novel"
+      },
+      {
+        "label": "Fanfiction",
+        "value": "fanfiction"
+      },
+      {
+        "label": "Fantasy",
+        "value": "fantasy"
+      },
+      {
+        "label": "Game",
+        "value": "game"
+      },
+      {
+        "label": "Gender Bender",
+        "value": "gender-bender"
+      },
+      {
+        "label": "Harem",
+        "value": "harem"
+      },
+      {
+        "label": "Historical",
+        "value": "historical"
+      },
+      {
+        "label": "Horror",
+        "value": "horror"
+      },
+      {
+        "label": "Martial Arts",
+        "value": "martial-arts"
+      },
+      {
+        "label": "Mature",
+        "value": "mature"
+      },
+      {
+        "label": "Mecha",
+        "value": "mecha"
+      },
+      {
+        "label": "Military",
+        "value": "military"
+      },
+      {
+        "label": "Mystery",
+        "value": "mystery"
+      },
+      {
+        "label": "Romance",
+        "value": "romance"
+      },
+      {
+        "label": "School Life",
+        "value": "school-life"
+      },
+      {
+        "label": "Sci-fi",
+        "value": "sci-fi"
+      },
+      {
+        "label": "Slice of Life",
+        "value": "slice-of-life"
+      },
+      {
+        "label": "Sports",
+        "value": "sports"
+      },
+      {
+        "label": "Supernatural",
+        "value": "supernatural"
+      },
+      {
+        "label": "Tragedy",
+        "value": "tragedy"
+      },
+      {
+        "label": "Urban Life",
+        "value": "urban-life"
+      },
+      {
+        "label": "Wuxia",
+        "value": "wuxia"
+      },
+      {
+        "label": "Xianxia",
+        "value": "xianxia"
+      },
+      {
+        "label": "Xuanhuan",
+        "value": "xuanhuan"
+      },
+      {
+        "label": "Yaoi",
+        "value": "yaoi"
+      },
+      {
+        "label": "Yuri",
+        "value": "yuri"
+      }
+    ],
+    "type": "Picker"
+  },
+  "order": {
+    "label": "Status",
+    "value": "",
+    "options": [
+      {
+        "label": "All",
+        "value": ""
+      },
+      {
+        "label": "Ongoing",
+        "value": "0"
+      },
+      {
+        "label": "Completed",
+        "value": "1"
+      }
+    ],
+    "type": "Picker"
+  },
+  "time": {
+    "label": "Update Period",
+    "value": "",
+    "options": [
+      {
+        "label": "All",
+        "value": ""
+      },
+      {
+        "label": "3 Days",
+        "value": "3"
+      },
+      {
+        "label": "7 Days",
+        "value": "7"
+      },
+      {
+        "label": "15 Days",
+        "value": "15"
+      },
+      {
+        "label": "30 Days",
+        "value": "30"
+      }
+    ],
+    "type": "Picker"
+  }
+}
