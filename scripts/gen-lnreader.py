@@ -38,14 +38,14 @@ def class_name(name):
 
 
 def kotlin_string(value):
-    return json.dumps(value)
+    return json.dumps(value, ensure_ascii=False)
 
 
 def kotlin_literal(value):
     """A theme option as a Kotlin expression: strings, numbers and booleans as they are, lists as listOf(...)."""
     if isinstance(value, list):
         return "listOf(" + ", ".join(kotlin_literal(v) for v in value) + ")"
-    return json.dumps(value)
+    return json.dumps(value, ensure_ascii=False)
 
 
 def dead_sites(theme):
@@ -64,6 +64,7 @@ def main():
     parser.add_argument("kotlin_theme")
     parser.add_argument("--only")
     parser.add_argument("--force", action="store_true")
+    parser.add_argument("--lang", default="English", help="the sites' language when sources.json doesn't name one")
     parser.add_argument("--option-args", default="",
                         help="comma separated option=kotlinParam pairs passed to the theme constructor")
     args = parser.parse_args()
@@ -80,10 +81,11 @@ def main():
         options = source.get("options", {})
         if options.get("down") or source["id"] in skip or (only and source["id"] not in only):
             continue
-        lang = LANGS.get(options.get("lang", "English"), "all")
+        lang = LANGS.get(options.get("lang", args.lang), "all")
         ext_id = ident(source["id"])
         name = source["sourceName"]
-        cls = class_name(name)
+        # A name without Latin letters ("Свободный Мир Ранобэ") gives no class name, so fall back to the id.
+        cls = class_name(name) if re.search(r"[A-Za-z]", name) else class_name(source["id"])
         if cls == args.kotlin_theme:
             cls += "Source"  # a class can't extend a theme of its own name
         base_url = source["sourceSite"].rstrip("/")
