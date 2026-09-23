@@ -31,7 +31,10 @@ class NovelHi : HttpSource() {
     override val lang = "en"
     override val supportsLatest = false
 
-    private val json = Json { ignoreUnknownKeys = true }
+    private val json = Json {
+        ignoreUnknownKeys = true
+        coerceInputValues = true
+    }
 
     override fun getFilterList(): FilterList = LnFilters.fromResource(javaClass, "filters.json")
 

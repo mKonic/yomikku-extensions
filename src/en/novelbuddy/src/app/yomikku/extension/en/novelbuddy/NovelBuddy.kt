@@ -32,7 +32,10 @@ class NovelBuddy : HttpSource() {
 
     private val api = "https://api.novelbuddy.me"
 
-    private val json = Json { ignoreUnknownKeys = true }
+    private val json = Json {
+        ignoreUnknownKeys = true
+        coerceInputValues = true
+    }
 
     /** Freewebnovel's watermark, spelled in look-alike letters so a plain search misses it. */
     private val watermark by lazy {

@@ -23,7 +23,10 @@ class AnimeAnyway : HttpSource() {
     override val lang = "en"
     override val supportsLatest = false
 
-    private val json = Json { ignoreUnknownKeys = true }
+    private val json = Json {
+        ignoreUnknownKeys = true
+        coerceInputValues = true
+    }
 
     private inline fun <reified T> pageProps(response: Response): T {
         val data = NEXT_DATA.find(response.body.string())?.groupValues?.get(1) ?: throw Exception("Could not find the page's data")

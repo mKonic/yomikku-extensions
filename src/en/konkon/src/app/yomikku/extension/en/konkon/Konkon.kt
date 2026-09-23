@@ -30,7 +30,10 @@ class Konkon : HttpSource() {
 
     private val api = "https://api-k.konkon.ink"
 
-    private val json = Json { ignoreUnknownKeys = true }
+    private val json = Json {
+        ignoreUnknownKeys = true
+        coerceInputValues = true
+    }
 
     override fun headersBuilder(): Headers.Builder = super.headersBuilder()
         .add("Accept", "application/json")

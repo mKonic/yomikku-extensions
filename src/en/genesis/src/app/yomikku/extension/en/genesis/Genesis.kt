@@ -28,7 +28,10 @@ class Genesis : HttpSource() {
     override val lang = "en"
     override val supportsLatest = false
 
-    private val json = Json { ignoreUnknownKeys = true }
+    private val json = Json {
+        ignoreUnknownKeys = true
+        coerceInputValues = true
+    }
 
     override fun headersBuilder(): Headers.Builder = super.headersBuilder().add("Referer", "$baseUrl/")
 
