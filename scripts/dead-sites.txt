@@ -58,8 +58,6 @@ readwn/wuxiamtl  # the same site as fannovel (fanmtl.com), which has its own ext
 hotnovelpub/hotnovelpub  # connection fails
 hotnovelpub/eznovels  # domain redirects to a spam page
 rulate/erolate-api  # Cloudflare 522, origin down
-ranobes/ranobes  # security check after ~5 requests; the WebView pass is fingerprint-bound and never clears the app client
-ranobes/ranobes-ru  # same site engine and security check as ranobes
 standalone/dreambigtl  # Cloudflare 530, origin down
 standalone/lightnovelworld  # the site says it has shut down
 standalone/NovelOnline  # 503
