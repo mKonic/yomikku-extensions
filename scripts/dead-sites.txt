@@ -63,3 +63,4 @@ standalone/lightnovelworld  # the site says it has shut down
 standalone/NovelOnline  # 503
 standalone/vynovel  # connection fails
 standalone/rainofsnow  # parked domain
+standalone/novelarrow  # redirects to novelping.com, which has its own extension
