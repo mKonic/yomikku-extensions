@@ -5,6 +5,6 @@ plugins {
 yomikku {
     name = "Anime Anyway"
     className = ".AnimeAnyway"
-    versionCode = 1
+    versionCode = 2
     source(name = "Anime Anyway", lang = "en", baseUrl = "https://animeanyway.com")
 }

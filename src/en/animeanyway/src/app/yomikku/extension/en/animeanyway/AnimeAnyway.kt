@@ -33,8 +33,24 @@ class AnimeAnyway : HttpSource() {
         return json.decodeFromString<NextData<T>>(data).props.pageProps
     }
 
-    /** The site's own "Year 3 Vol. 4" titles don't name the series; its other titles do. */
-    private fun displayName(title: String) = if (YEAR_VOLUME.containsMatchIn(title)) "Classroom of the Elite: $title" else title
+    /**
+     * A volume of a series with its own path is titled by the series, with the volume in `displayTitle`. The site's
+     * own "Year 3 Vol. 4" titles don't name the series; its other titles do.
+     */
+    private fun Volume.displayName(): String {
+        val volume = displayTitle?.trim()
+        return when {
+            !volume.isNullOrEmpty() && !volume.equals(title, ignoreCase = true) -> "$title: $volume"
+            YEAR_VOLUME.containsMatchIn(title) -> "Classroom of the Elite: $title"
+            else -> title
+        }
+    }
+
+    /** Volumes of the site's first series sit at the root; other series nest theirs under the series. */
+    private val Volume.path get() = if (series != null && seriesUsesRootPath == false) "/$series/$volkeyword" else "/$volkeyword"
+
+    /** Older pages carry the volume at `vol`, current ones at `volumeProps.vol`. */
+    private val VolumePage.volume get() = vol ?: volumeProps?.vol
 
     // Listings: the home page lists every volume.
 
@@ -60,15 +76,15 @@ class AnimeAnyway : HttpSource() {
     private fun String.normalize() = lowercase().replace(NON_WORD, " ").trim()
 
     private fun Volume.toSManga() = SManga.create().apply {
-        url = "/$volkeyword"
-        title = displayName(this@toSManga.title)
+        url = path
+        title = displayName()
         thumbnail_url = mainImage?.asset?.url
     }
 
     // Details and chapters
 
     override fun mangaDetailsParse(response: Response): SManga {
-        val volume = pageProps<VolumePage>(response).vol ?: throw Exception("This novel is not available on Anime Anyway")
+        val volume = pageProps<VolumePage>(response).volume ?: throw Exception("This novel is not available on Anime Anyway")
         return volume.toSManga().apply {
             description = volume.synopsis.filter { it._type == "block" }
                 .map { block -> block.children.joinToString("") { it.text } }
@@ -80,10 +96,10 @@ class AnimeAnyway : HttpSource() {
     }
 
     override fun chapterListParse(response: Response): List<SChapter> {
-        val volume = pageProps<VolumePage>(response).vol ?: return emptyList()
+        val volume = pageProps<VolumePage>(response).volume ?: return emptyList()
         return volume.chapters.mapIndexed { index, chapter ->
             SChapter.create().apply {
-                url = "/${volume.volkeyword}/${chapter.chkeyword}"
+                url = "${volume.path}/${chapter.chkeyword}"
                 name = chapter.title
                 chapter_number = index + 1f
             }
@@ -130,7 +146,10 @@ class AnimeAnyway : HttpSource() {
     private class Home(val allVolumes: List<Volume> = emptyList())
 
     @Serializable
-    private class VolumePage(val vol: Volume? = null)
+    private class VolumeProps(val vol: Volume? = null)
+
+    @Serializable
+    private class VolumePage(val vol: Volume? = null, val volumeProps: VolumeProps? = null)
 
     @Serializable
     private class ChapterPage(val chapter: ChapterContent? = null)
@@ -150,6 +169,9 @@ class AnimeAnyway : HttpSource() {
     @Serializable
     private class Volume(
         val title: String,
+        val displayTitle: String? = null,
+        val series: String? = null,
+        val seriesUsesRootPath: Boolean? = null,
         val volkeyword: String,
         val mainImage: Image? = null,
         val progress: Float? = null,
