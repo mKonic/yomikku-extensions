@@ -5,7 +5,7 @@ plugins {
 yomikku {
     name = "Crimson Scrolls"
     className = ".CrimsonScrolls"
-    versionCode = 1
+    versionCode = 2
     source(name = "Crimson Scrolls", lang = "en", baseUrl = "https://crimsonscrolls.net")
 }
 

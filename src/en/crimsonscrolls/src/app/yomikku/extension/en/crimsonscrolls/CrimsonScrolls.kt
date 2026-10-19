@@ -40,9 +40,19 @@ class CrimsonScrolls : HttpSource() {
         return GET(url.build(), headers)
     }
 
-    override fun popularMangaRequest(page: Int) = novelsRequest("novels/trending/overall/", page)
+    // The trending page is one ranked page of spotlight cards and rows, not the browse grid.
+    override fun popularMangaRequest(page: Int) = GET("$baseUrl/novels/trending/overall/", headers)
 
-    override fun popularMangaParse(response: Response) = novelsParse(response)
+    override fun popularMangaParse(response: Response): MangasPage {
+        val novels = response.asJsoup().select("a.cs-trending-spotlight-card[href], a.cs-trending-row[href]").map { card ->
+            SManga.create().apply {
+                setUrlWithoutDomain(card.absUrl("href"))
+                title = card.selectFirst("strong")?.text()?.trim().orEmpty()
+                thumbnail_url = card.selectFirst("img")?.let { it.absUrl("data-src").ifEmpty { it.absUrl("src") } }
+            }
+        }.distinctBy { it.url }
+        return MangasPage(novels, false)
+    }
 
     override fun latestUpdatesRequest(page: Int) = novelsRequest("novels/recently-updated/", page)
 
@@ -63,7 +73,11 @@ class CrimsonScrolls : HttpSource() {
                 thumbnail_url = card.selectFirst("img")?.let { it.absUrl("data-src").ifEmpty { it.absUrl("src") } }
             }
         }
-        val page = response.request.url.queryParameter("cs_page")?.toIntOrNull() ?: 1
+        // Listings with their own path redirect ?cs_page=N to /page/N/.
+        val url = response.request.url
+        val page = url.queryParameter("cs_page")?.toIntOrNull()
+            ?: url.pathSegments.zipWithNext().firstOrNull { it.first == "page" }?.second?.toIntOrNull()
+            ?: 1
         val pages = document.selectFirst("[data-browse-pagination][data-total-pages]")?.attr("data-total-pages")
             ?.toIntOrNull() ?: 1
         val hasNext = page < pages
@@ -121,7 +135,12 @@ class CrimsonScrolls : HttpSource() {
         return chapters.map { chapter ->
             SChapter.create().apply {
                 setUrlWithoutDomain(chapter.url)
-                name = if (chapter.number.isNullOrEmpty()) chapter.title else "Chapter ${chapter.number}: ${chapter.title}"
+                val title = chapter.title.trim()
+                name = when {
+                    chapter.number.isNullOrEmpty() -> title
+                    title.isEmpty() -> "Chapter ${chapter.number}"
+                    else -> "Chapter ${chapter.number}: $title"
+                }
                 chapter_number = chapter.number?.toFloatOrNull() ?: -1f
                 date_upload = chapter.date?.let { runCatching { DATE_FORMAT.parse(it)?.time }.getOrNull() } ?: 0L
             }
