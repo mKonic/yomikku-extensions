@@ -31,13 +31,17 @@ object WpCommon {
         return this
     }
 
-    /** The real source of a possibly lazy-loaded image. */
-    fun Element.imageUrl(): String? {
-        val url = absUrl("data-lazy-src").ifEmpty { absUrl("data-src") }
-            .ifEmpty { attr("data-lazy-srcset").substringBefore(' ') }
-            .ifEmpty { absUrl("src") }
-        return url.ifEmpty { null }
-    }
+    /** The real source of a possibly lazy-loaded image, skipping the placeholders lazy loaders put in `src`. */
+    fun Element.imageUrl(): String? = sequenceOf(
+        absUrl("data-lazy-src"),
+        absUrl("data-src"),
+        absUrl("data-cfsrc"),
+        absUrl("data-original"),
+        attr("data-srcset").substringBefore(' '),
+        attr("data-lazy-srcset").substringBefore(' '),
+        attr("srcset").substringBefore(' '),
+        absUrl("src"),
+    ).firstOrNull { it.isNotEmpty() && !it.startsWith("data:") && "dflazy" !in it }
 
     private val RELATIVE_UNITS = mapOf(
         Calendar.SECOND to listOf("detik", "segundo", "second", "saniye", "วินาที", "ثانية"),
