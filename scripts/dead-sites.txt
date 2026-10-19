@@ -2,11 +2,9 @@
 madara/1stkissnovel  # parked ad-redirect page
 madara/azora  # 404 on the listing
 madara/azraznovel  # 404 on the listing
-madara/dragonholic  # "We Have Moved" page
 madara/ekitaplar  # no longer Madara
 madara/fanstranslations  # TLS handshake fails
 madara/fortuneeternal  # 403 without a challenge
-madara/hangulplanet  # 404 on the listing
 madara/Kakikata  # domain does not resolve
 madara/lunarletters  # connection times out
 madara/massnovel  # moved to novelfrance.fr, no longer Madara
@@ -24,6 +22,7 @@ madara/salmonlatte  # Cloudflare 525, origin down
 madara/traducciones  # 404 on the listing
 madara/wooksteahouse  # domain redirects to a spam page
 madara/wordexcerpt  # no longer Madara
+madara/bailiantales  # custom "jormuntl" theme, not Madara (no listing cards, no chapter endpoint)
 madara/zetroTL  # "Zetro is moving" page
 lightnovelwp/arcane  # redirects to noveldex.io, a different site
 lightnovelwp/freekolnovel  # redirects to kolnovel, which has its own extension
