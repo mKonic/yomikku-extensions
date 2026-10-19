@@ -178,163 +178,163 @@
     "options": [
       {
         "label": "Action",
-        "value": "action"
+        "value": "1"
       },
       {
         "label": "Adult",
-        "value": "adult"
+        "value": "2"
       },
       {
         "label": "Adventure",
-        "value": "adventure"
+        "value": "3"
       },
       {
         "label": "Comedy",
-        "value": "comedy"
+        "value": "4"
       },
       {
         "label": "Drama",
-        "value": "drama"
+        "value": "5"
       },
       {
         "label": "Ecchi",
-        "value": "ecchi"
+        "value": "6"
       },
       {
         "label": "Erciyuan",
-        "value": "erciyuan"
+        "value": "7"
       },
       {
         "label": "Fan-Fiction",
-        "value": "fan-fiction"
+        "value": "8"
       },
       {
         "label": "Fantasy",
-        "value": "fantasy"
+        "value": "9"
       },
       {
         "label": "Game",
-        "value": "game"
+        "value": "10"
       },
       {
         "label": "Gender-Bender",
-        "value": "gender-bender"
+        "value": "11"
       },
       {
         "label": "Harem",
-        "value": "harem"
+        "value": "12"
       },
       {
         "label": "Historical",
-        "value": "historical"
+        "value": "13"
       },
       {
         "label": "Horror",
-        "value": "horror"
+        "value": "14"
       },
       {
         "label": "Josei",
-        "value": "josei"
+        "value": "15"
       },
       {
         "label": "Martial-Arts",
-        "value": "martial-arts"
+        "value": "16"
       },
       {
         "label": "Mature",
-        "value": "mature"
+        "value": "17"
       },
       {
         "label": "Mecha",
-        "value": "mecha"
+        "value": "18"
       },
       {
         "label": "Military",
-        "value": "military"
+        "value": "19"
       },
       {
         "label": "Mystery",
-        "value": "mystery"
+        "value": "20"
       },
       {
         "label": "Psychological",
-        "value": "psychological"
+        "value": "21"
       },
       {
         "label": "Romance",
-        "value": "romance"
+        "value": "22"
       },
       {
         "label": "School-Life",
-        "value": "school-life"
+        "value": "23"
       },
       {
         "label": "Sci-Fi",
-        "value": "sci-fi"
+        "value": "24"
       },
       {
         "label": "Seinen",
-        "value": "seinen"
+        "value": "25"
       },
       {
         "label": "Shoujo",
-        "value": "shoujo"
+        "value": "26"
       },
       {
         "label": "Shoujo-Ai",
-        "value": "shoujo-ai"
+        "value": "27"
       },
       {
         "label": "Shounen",
-        "value": "shounen"
+        "value": "28"
       },
       {
         "label": "Shounen-Ai",
-        "value": "shounen-ai"
+        "value": "29"
       },
       {
         "label": "Slice-Of-Life",
-        "value": "slice-of-life"
+        "value": "30"
       },
       {
         "label": "Smut",
-        "value": "smut"
+        "value": "31"
       },
       {
         "label": "Sports",
-        "value": "sports"
+        "value": "32"
       },
       {
         "label": "Supernatural",
-        "value": "supernatural"
+        "value": "33"
       },
       {
         "label": "Tragedy",
-        "value": "tragedy"
+        "value": "34"
       },
       {
         "label": "Urban-Life",
-        "value": "urban-life"
+        "value": "35"
       },
       {
         "label": "Wuxia",
-        "value": "wuxia"
+        "value": "36"
       },
       {
         "label": "Xianxia",
-        "value": "xianxia"
+        "value": "37"
       },
       {
         "label": "Xuanhuan",
-        "value": "xuanhuan"
+        "value": "38"
       },
       {
         "label": "Yaoi",
-        "value": "yaoi"
+        "value": "39"
       },
       {
         "label": "Yuri",
-        "value": "yuri"
+        "value": "40"
       }
     ]
   },

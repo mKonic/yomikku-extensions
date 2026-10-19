@@ -23,6 +23,7 @@ import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.put
 import okhttp3.Headers
 import okhttp3.HttpUrl.Companion.toHttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -116,7 +117,7 @@ class WtrLab : HttpSource() {
 
     private fun Serie.toSManga() = SManga.create().apply {
         url = "/en/novel/$raw_id/$slug"
-        title = data.title ?: slug
+        title = resolveTokens(data.title ?: slug)
         thumbnail_url = data.image
     }
 
@@ -127,8 +128,8 @@ class WtrLab : HttpSource() {
         val props = pageProps(document)
         val serie = props.serie.serie_data
         return serie.toSManga().apply {
-            author = serie.data.author?.ifBlank { null }
-            description = serie.data.description
+            author = serie.data.author?.let(::resolveTokens)?.ifBlank { null }
+            description = serie.data.description?.let(::resolveTokens)
             status = when (serie.status) {
                 0 -> SManga.ONGOING
                 1 -> SManga.COMPLETED
@@ -138,7 +139,7 @@ class WtrLab : HttpSource() {
             val genreNames = document.select("a[href*=novel-list?genre=]").mapNotNull { link ->
                 GENRE_ID.find(link.attr("href"))?.groupValues?.get(1)?.toIntOrNull()?.let { it to link.text().trim() }
             }.toMap()
-            genre = (serie.genres.mapNotNull { genreNames[it]?.replaceFirstChar(Char::uppercase) } + props.tags.map { it.title })
+            genre = (serie.genres.mapNotNull { genreNames[it]?.replaceFirstChar(Char::uppercase) } + props.tags.map { resolveTokens(it.title) })
                 .filter { it.isNotBlank() }.distinct().joinToString().ifEmpty { null }
         }
     }
@@ -165,7 +166,7 @@ class WtrLab : HttpSource() {
         return chapters.map { chapter ->
             SChapter.create().apply {
                 url = "/en/novel/$rawId/$slug/chapter-${chapter.order}"
-                name = chapter.title ?: chapter.name ?: "Chapter ${chapter.order}"
+                name = (chapter.title ?: chapter.name)?.let(::resolveTokens) ?: "Chapter ${chapter.order}"
                 chapter_number = chapter.order.toFloat()
                 date_upload = chapter.updated_at?.let { runCatching { DATE_FORMAT.parse(it.take(19))?.time }.getOrNull() } ?: 0L
             }
@@ -189,9 +190,14 @@ class WtrLab : HttpSource() {
             val readerHeaders = headers.newBuilder().set("Referer", baseUrl + chapter.url).add("Accept", "application/json").build()
             val result = client.newCall(POST("$baseUrl/api/reader/get", readerHeaders, body)).await()
                 .use { response -> runCatching { json.decodeFromString<Reader>(response.body.string()) }.getOrNull() }
-            val content = result?.data?.data
-            if (result == null || result.success == false || content?.body == null) {
+            if (result == null || result.success == false) {
                 failures += "$mode: ${result?.error ?: result?.message ?: "unavailable"}"
+                continue
+            }
+            // A mode with no payload falls through to the next one.
+            val content = content(result)
+            if (content?.body == null) {
+                failures += "$mode: no chapter content"
                 continue
             }
             val lines = when (val raw = content.body) {
@@ -200,13 +206,50 @@ class WtrLab : HttpSource() {
                 else -> continue
             }
             val terms = content.glossary_data?.terms?.map { it.firstOrNull().orEmpty() }.orEmpty()
-            val title = result.chapter?.title?.let { "<h3>${Entities.escape(it)}</h3>" }.orEmpty()
-            return title + lines.joinToString("") { line ->
-                val text = if (terms.isEmpty()) line else GLOSSARY.replace(line) { terms.getOrNull(it.groupValues[1].toInt()) ?: it.value }
-                "<p>${Entities.escape(text)}</p>"
+            fun String.resolved() = resolveTokens(this).let { text ->
+                if (terms.isEmpty()) text else GLOSSARY.replace(text) { terms.getOrNull(it.groupValues[1].toInt()) ?: it.value }
             }
+            val images = content.images.map { imageUrl(it) }.iterator()
+            // The reader shows the chapter's name already; the text often opens with it again.
+            val title = (result.chapter?.title ?: content.title)?.resolved()?.trim()
+            val textLines = lines.dropWhile { it.isBlank() }.let { rest ->
+                val first = rest.firstOrNull()?.resolved()?.trim()
+                if (first != null && (first.equals(title, ignoreCase = true) || first.equals(chapter.name.trim(), ignoreCase = true))) rest.drop(1) else rest
+            }
+            val paragraphs = textLines.joinToString("") { line ->
+                // "[image]" marks where the chapter's next image goes.
+                val html = line.resolved().split(IMAGE_SPLIT).joinToString("") { part ->
+                    if (IMAGE_MARK.matches(part.trim())) {
+                        if (images.hasNext()) "<img src=\"${Entities.escape(images.next())}\">" else part
+                    } else {
+                        Entities.escape(part)
+                    }
+                }
+                if (html.isBlank()) "" else "<p>$html</p>"
+            }
+            val leftover = images.asSequence().joinToString("") { "<p><img src=\"${Entities.escape(it)}\"></p>" }
+            return paragraphs + leftover
         }
         throw Exception("None of the translations could be loaded (${failures.joinToString("; ")})")
+    }
+
+    /** The reader answers with the payload inline, or with a `content_url` to fetch it from. */
+    private suspend fun content(reader: Reader): ReaderContent? {
+        reader.data?.data?.takeIf { it.body != null }?.let { return it }
+        val url = reader.content_url?.let { (if (it.startsWith("/")) baseUrl + it else it).toHttpUrlOrNull() } ?: return null
+        // The server picks the URL; only follow it on the site's own hosts, where the session belongs.
+        val host = baseUrl.toHttpUrl().host
+        if (url.host != host && !url.host.endsWith(".$host")) return null
+        val contentHeaders = headers.newBuilder().add("Accept", "application/json").build()
+        return client.newCall(GET(url, contentHeaders)).await().use { response ->
+            runCatching { json.decodeFromString<ReaderPayload>(response.body.string()).data?.data }.getOrNull()
+        }
+    }
+
+    private fun imageUrl(url: String) = when {
+        url.startsWith("http://") || url.startsWith("https://") -> url
+        url.startsWith("//") -> "https:$url"
+        else -> "$baseUrl/${url.removePrefix("/")}"
     }
 
     private var encryptionKey: String? = null
@@ -252,6 +295,18 @@ class WtrLab : HttpSource() {
     }
 
     override fun getChapterUrl(chapter: SChapter) = baseUrl + chapter.url
+
+    /**
+     * The site hides some words behind tokens, `%{"word": "<base64>"}` or `%{word | <base64>}`, that its pages
+     * swap for the decoded base64, or the plain word when that fails.
+     */
+    private fun resolveTokens(text: String): String = DEBRAND.replace(text) { match ->
+        val (safe1, b64a, safe2, b64b) = match.destructured
+        val decoded = runCatching {
+            String(Base64.getUrlDecoder().decode((b64a + b64b).trim().replace('+', '-').replace('/', '_').trimEnd('=')))
+        }.getOrNull().orEmpty()
+        decoded.ifBlank { (safe1 + safe2).trim() }.ifEmpty { match.value }
+    }
 
     @Serializable
     private class BuildInfo(val buildId: String)
@@ -314,10 +369,18 @@ class WtrLab : HttpSource() {
 
     @Suppress("PropertyName")
     @Serializable
-    private class ReaderContent(val body: JsonElement? = null, val glossary_data: Glossary? = null)
+    private class ReaderContent(
+        val body: JsonElement? = null,
+        val title: String? = null,
+        val images: List<String> = emptyList(),
+        val glossary_data: Glossary? = null,
+    )
 
     @Serializable
     private class ReaderData(val data: ReaderContent? = null)
+
+    @Serializable
+    private class ReaderPayload(val data: ReaderData? = null)
 
     @Serializable
     private class ReaderChapter(val title: String? = null)
@@ -329,6 +392,7 @@ class WtrLab : HttpSource() {
         val message: String? = null,
         val chapter: ReaderChapter? = null,
         val data: ReaderData? = null,
+        @Suppress("PropertyName") val content_url: String? = null,
     )
 
     companion object {
@@ -344,6 +408,13 @@ class WtrLab : HttpSource() {
         private val NEXT_DATA = Regex("""<script id="__NEXT_DATA__"[^>]*>(.*?)</script>""", RegexOption.DOT_MATCHES_ALL)
         private val PATH = Regex("""/(?:serie-|novel/)(\d+)/([^/]+)""")
         private val CHAPTER_PATH = Regex("""/(?:serie-|novel/)(\d+)/([^/]+)/chapter-(\d+)""")
+        private val DEBRAND = Regex(
+            """%\{(?:"([^"]*)":\s*"?([A-Za-z0-9+/=_-]+)"?|([^|{}%\u0000-\u001F\u007F\u2028\u2029]+?)\s*\|\s*([A-Za-z0-9+/=_-]+))\}""",
+        )
+        private val IMAGE_MARK = Regex("""(?i)\[\s*image\s*]""")
+
+        // Splits before and after every image mark, keeping the mark as its own part.
+        private val IMAGE_SPLIT = Regex("""(?i)(?<=\[\s{0,9}image\s{0,9}])|(?=\[\s{0,9}image\s{0,9}])""")
         private val GENRE_ID = Regex("""genre=(\d+)""")
         private val GLOSSARY = Regex("""(?:wtr-lab\s+)?※([0-9]+)[⛬〓]""")
         private val DATE_FORMAT = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ROOT).apply {

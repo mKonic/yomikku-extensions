@@ -5,7 +5,7 @@ plugins {
 yomikku {
     name = "WTR-LAB"
     className = ".WtrLab"
-    versionCode = 1
+    versionCode = 2
     source(name = "WTR-LAB", lang = "en", baseUrl = "https://wtr-lab.com")
 }
 
