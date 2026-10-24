@@ -1,0 +1,211 @@
+{
+  "genre": {
+    "label": "Genre",
+    "value": "",
+    "options": [
+      {
+        "label": "All",
+        "value": ""
+      },
+      {
+        "label": "Action",
+        "value": "Action"
+      },
+      {
+        "label": "Adult",
+        "value": "Adult"
+      },
+      {
+        "label": "Adventure",
+        "value": "Adventure"
+      },
+      {
+        "label": "Comedy",
+        "value": "Comedy"
+      },
+      {
+        "label": "Drama",
+        "value": "Drama"
+      },
+      {
+        "label": "Ecchi",
+        "value": "Ecchi"
+      },
+      {
+        "label": "Fantasy",
+        "value": "Fantasy"
+      },
+      {
+        "label": "Gender Bender",
+        "value": "GenderBender"
+      },
+      {
+        "label": "Harem",
+        "value": "Harem"
+      },
+      {
+        "label": "Historical",
+        "value": "Historical"
+      },
+      {
+        "label": "Horror",
+        "value": "Horror"
+      },
+      {
+        "label": "Isekai",
+        "value": "Isekai"
+      },
+      {
+        "label": "Josei",
+        "value": "Josei"
+      },
+      {
+        "label": "LitRPG",
+        "value": "LitRPG"
+      },
+      {
+        "label": "Martial Arts",
+        "value": "MartialArts"
+      },
+      {
+        "label": "Mature",
+        "value": "Mature"
+      },
+      {
+        "label": "Mecha",
+        "value": "Mecha"
+      },
+      {
+        "label": "Mystery",
+        "value": "Mystery"
+      },
+      {
+        "label": "Psychological",
+        "value": "Psychological"
+      },
+      {
+        "label": "Romance",
+        "value": "Romance"
+      },
+      {
+        "label": "School Life",
+        "value": "SchoolLife"
+      },
+      {
+        "label": "Sci-fi",
+        "value": "Scifi"
+      },
+      {
+        "label": "Shounen",
+        "value": "Shounen"
+      },
+      {
+        "label": "Slice of Life",
+        "value": "SliceofLife"
+      },
+      {
+        "label": "Smut",
+        "value": "Smut"
+      },
+      {
+        "label": "Sports",
+        "value": "Sports"
+      },
+      {
+        "label": "Supernatural",
+        "value": "Supernatural"
+      },
+      {
+        "label": "Tragedy",
+        "value": "Tragedy"
+      },
+      {
+        "label": "Urban",
+        "value": "Urban"
+      },
+      {
+        "label": "Wuxia",
+        "value": "Wuxia"
+      },
+      {
+        "label": "Xianxia",
+        "value": "Xianxia"
+      },
+      {
+        "label": "Xuanhuan",
+        "value": "Xuanhuan"
+      }
+    ],
+    "type": "Picker"
+  },
+  "status": {
+    "label": "Status",
+    "value": "",
+    "options": [
+      {
+        "label": "All",
+        "value": ""
+      },
+      {
+        "label": "Ongoing",
+        "value": "lianzai"
+      },
+      {
+        "label": "Completed",
+        "value": "wanjie"
+      },
+      {
+        "label": "Hiatus",
+        "value": "hiatus"
+      }
+    ],
+    "type": "Picker"
+  },
+  "lang": {
+    "label": "Language",
+    "value": "",
+    "options": [
+      {
+        "label": "All",
+        "value": ""
+      },
+      {
+        "label": "Chinese",
+        "value": "chinese"
+      },
+      {
+        "label": "Korean",
+        "value": "korean"
+      },
+      {
+        "label": "Japanese",
+        "value": "japanese"
+      }
+    ],
+    "type": "Picker"
+  },
+  "sort": {
+    "label": "Sort By",
+    "value": "click",
+    "options": [
+      {
+        "label": "Clicks",
+        "value": "click"
+      },
+      {
+        "label": "Time Updated",
+        "value": "update"
+      },
+      {
+        "label": "Time Posted",
+        "value": "post"
+      }
+    ],
+    "type": "Picker"
+  },
+  "order": {
+    "label": "Ascending",
+    "value": false,
+    "type": "Switch"
+  }
+}
