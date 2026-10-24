@@ -11,6 +11,13 @@ import json
 import re
 import sys
 
+# LNReader's NovelStatus constants (src/types/constants.ts), which some plugins use as filter values.
+NOVEL_STATUS = {
+    "Unknown": "Unknown", "Ongoing": "Ongoing", "Completed": "Completed", "Licensed": "Licensed",
+    "PublishingFinished": "Publishing Finished", "Cancelled": "Cancelled", "OnHiatus": "On Hiatus", "STUB": "STUB",
+    "Inactive": "Inactive",
+}
+
 FILTER_TYPES = {
     "TextInput": "Text", "Picker": "Picker", "CheckboxGroup": "Checkbox", "Switch": "Switch",
     "ExcludableCheckboxGroup": "XCheckbox",
@@ -77,6 +84,11 @@ def to_json(literal):
         m = re.match(r"FilterTypes\.(\w+)", literal[i:])
         if m:
             out.append(json.dumps(FILTER_TYPES[m.group(1)]))
+            i += m.end()
+            continue
+        m = re.match(r"NovelStatus\.(\w+)", literal[i:])
+        if m:
+            out.append(json.dumps(NOVEL_STATUS[m.group(1)]))
             i += m.end()
             continue
         m = re.match(r"([A-Za-z_$][\w$]*)\s*:", literal[i:])
