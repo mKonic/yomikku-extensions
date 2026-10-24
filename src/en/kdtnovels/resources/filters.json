@@ -1,0 +1,217 @@
+{
+  "genre": {
+    "label": "Genre",
+    "value": "",
+    "options": [
+      {
+        "label": "All",
+        "value": ""
+      },
+      {
+        "label": "Action",
+        "value": "action"
+      },
+      {
+        "label": "Adult",
+        "value": "adult"
+      },
+      {
+        "label": "Adventure",
+        "value": "adventure"
+      },
+      {
+        "label": "Battle Royale",
+        "value": "battle-royale"
+      },
+      {
+        "label": "Childhood Friends",
+        "value": "childhood-friends"
+      },
+      {
+        "label": "Cohabitation",
+        "value": "cohabitation"
+      },
+      {
+        "label": "Comedy",
+        "value": "comedy"
+      },
+      {
+        "label": "Drama",
+        "value": "drama"
+      },
+      {
+        "label": "Ecchi",
+        "value": "ecchi"
+      },
+      {
+        "label": "Fantasy",
+        "value": "fantasy"
+      },
+      {
+        "label": "Gender Bender",
+        "value": "gender-bender"
+      },
+      {
+        "label": "Genderswap",
+        "value": "genderswap"
+      },
+      {
+        "label": "Gore",
+        "value": "gore"
+      },
+      {
+        "label": "Harem",
+        "value": "harem"
+      },
+      {
+        "label": "Horror",
+        "value": "horror"
+      },
+      {
+        "label": "Idol",
+        "value": "idol"
+      },
+      {
+        "label": "Isekai",
+        "value": "isekai"
+      },
+      {
+        "label": "Isekai reincarnation",
+        "value": "isekai-reincarnation"
+      },
+      {
+        "label": "Magic",
+        "value": "magic"
+      },
+      {
+        "label": "Martial Arts",
+        "value": "martial-arts"
+      },
+      {
+        "label": "Mature",
+        "value": "mature"
+      },
+      {
+        "label": "Mecha",
+        "value": "mecha"
+      },
+      {
+        "label": "Monster Girls",
+        "value": "monster-girls"
+      },
+      {
+        "label": "Monsters",
+        "value": "monsters"
+      },
+      {
+        "label": "Mystery",
+        "value": "mystery"
+      },
+      {
+        "label": "Parallel world",
+        "value": "parallel-world"
+      },
+      {
+        "label": "Psychological",
+        "value": "psychological"
+      },
+      {
+        "label": "Psychological drama",
+        "value": "psychological-drama"
+      },
+      {
+        "label": "Reincarnation",
+        "value": "reincarnation"
+      },
+      {
+        "label": "Romance",
+        "value": "romance"
+      },
+      {
+        "label": "Romance school",
+        "value": "romance-school"
+      },
+      {
+        "label": "Romantic Comedy",
+        "value": "romantic-comedy"
+      },
+      {
+        "label": "School",
+        "value": "school"
+      },
+      {
+        "label": "School Life",
+        "value": "school-life"
+      },
+      {
+        "label": "Sci-fi",
+        "value": "sci-fi"
+      },
+      {
+        "label": "Seinen",
+        "value": "seinen"
+      },
+      {
+        "label": "Sexual Violence",
+        "value": "sexual-violence"
+      },
+      {
+        "label": "Shonen",
+        "value": "shonen"
+      },
+      {
+        "label": "Shota",
+        "value": "shota"
+      },
+      {
+        "label": "Shoujo Ai",
+        "value": "shoujo-ai"
+      },
+      {
+        "label": "Shounen",
+        "value": "shounen"
+      },
+      {
+        "label": "Slice of Life",
+        "value": "slice-of-life"
+      },
+      {
+        "label": "Smut",
+        "value": "smut"
+      },
+      {
+        "label": "Supernatural",
+        "value": "supernatural"
+      },
+      {
+        "label": "Survival",
+        "value": "survival"
+      },
+      {
+        "label": "Time Travel",
+        "value": "time-travel"
+      },
+      {
+        "label": "Tragedy",
+        "value": "tragedy"
+      },
+      {
+        "label": "Villainess Otome Game",
+        "value": "villainess-otome-game"
+      },
+      {
+        "label": "Yamikawa",
+        "value": "yamikawa"
+      },
+      {
+        "label": "Youth",
+        "value": "youth"
+      },
+      {
+        "label": "Yuri",
+        "value": "yuri"
+      }
+    ],
+    "type": "Picker"
+  }
+}
