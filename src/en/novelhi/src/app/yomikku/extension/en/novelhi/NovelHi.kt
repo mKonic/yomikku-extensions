@@ -38,6 +38,9 @@ class NovelHi : HttpSource() {
 
     override fun getFilterList(): FilterList = LnFilters.fromResource(javaClass, "filters.json")
 
+    // img.novelhi.com answers a browser User-Agent without a Referer with 403, and covers use these headers.
+    override fun headersBuilder() = super.headersBuilder().add("Referer", "$baseUrl/")
+
     // Listings
 
     override fun popularMangaRequest(page: Int) = searchMangaRequest(page, "", FilterList())
