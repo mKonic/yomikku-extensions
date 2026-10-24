@@ -1,0 +1,272 @@
+{
+  "ordering": {
+    "label": "Sort Results By",
+    "value": "popularity",
+    "options": [
+      {
+        "label": "Title (A-Z)",
+        "value": "title"
+      },
+      {
+        "label": "Publication Date",
+        "value": "-time_created"
+      },
+      {
+        "label": "Update Date",
+        "value": "-time_updated"
+      },
+      {
+        "label": "Year of Release",
+        "value": "-year_of_realese"
+      },
+      {
+        "label": "Popularity",
+        "value": "popularity"
+      }
+    ],
+    "type": "Picker"
+  },
+  "translation": {
+    "label": "Translation Status",
+    "value": [],
+    "options": [
+      {
+        "label": "Ongoing",
+        "value": "ongoing"
+      },
+      {
+        "label": "Completed",
+        "value": "completed"
+      },
+      {
+        "label": "Paused",
+        "value": "paused"
+      },
+      {
+        "label": "Dropped",
+        "value": "dropped"
+      },
+      {
+        "label": "None",
+        "value": "none"
+      }
+    ],
+    "type": "Checkbox"
+  },
+  "status": {
+    "label": "Status",
+    "value": [],
+    "options": [
+      {
+        "label": "Releasing",
+        "value": "releasing"
+      },
+      {
+        "label": "Completed",
+        "value": "completed"
+      },
+      {
+        "label": "Cancelled",
+        "value": "cancelled"
+      },
+      {
+        "label": "Not yet released",
+        "value": "not yet released"
+      }
+    ],
+    "type": "Checkbox"
+  },
+  "type": {
+    "label": "Type",
+    "value": [],
+    "options": [
+      {
+        "label": "Fan Fiction",
+        "value": "4"
+      },
+      {
+        "label": "Light Novel",
+        "value": "1"
+      },
+      {
+        "label": "Published Novel",
+        "value": "2"
+      },
+      {
+        "label": "Web Novel",
+        "value": "3"
+      }
+    ],
+    "type": "Checkbox"
+  },
+  "genres": {
+    "label": "Genres",
+    "value": [],
+    "options": [
+      {
+        "label": "Thriller",
+        "value": "1"
+      },
+      {
+        "label": "Supernatural",
+        "value": "2"
+      },
+      {
+        "label": "Sports",
+        "value": "3"
+      },
+      {
+        "label": "Slice of Life",
+        "value": "4"
+      },
+      {
+        "label": "Sci-Fi",
+        "value": "5"
+      },
+      {
+        "label": "Romance",
+        "value": "6"
+      },
+      {
+        "label": "Psychological",
+        "value": "7"
+      },
+      {
+        "label": "Mystery",
+        "value": "8"
+      },
+      {
+        "label": "Mecha",
+        "value": "9"
+      },
+      {
+        "label": "Horror",
+        "value": "10"
+      },
+      {
+        "label": "Fantasy",
+        "value": "11"
+      },
+      {
+        "label": "Ecchi",
+        "value": "12"
+      },
+      {
+        "label": "Drama",
+        "value": "13"
+      },
+      {
+        "label": "Comedy",
+        "value": "14"
+      },
+      {
+        "label": "Adventure",
+        "value": "15"
+      },
+      {
+        "label": "Action",
+        "value": "16"
+      },
+      {
+        "label": "Adult",
+        "value": "17"
+      },
+      {
+        "label": "Isekai",
+        "value": "18"
+      },
+      {
+        "label": "Wuxia",
+        "value": "19"
+      },
+      {
+        "label": "Shounen",
+        "value": "20"
+      },
+      {
+        "label": "Yuri",
+        "value": "21"
+      },
+      {
+        "label": "Shoujo",
+        "value": "22"
+      },
+      {
+        "label": "Shoujo Ai",
+        "value": "23"
+      },
+      {
+        "label": "Harem",
+        "value": "24"
+      },
+      {
+        "label": "Seinen",
+        "value": "25"
+      },
+      {
+        "label": "Tragedy",
+        "value": "26"
+      },
+      {
+        "label": "Mature",
+        "value": "27"
+      },
+      {
+        "label": "Martial Arts",
+        "value": "28"
+      },
+      {
+        "label": "Gender Bender",
+        "value": "29"
+      },
+      {
+        "label": "School Life",
+        "value": "30"
+      },
+      {
+        "label": "Xuanhuan",
+        "value": "31"
+      },
+      {
+        "label": "Yaoi",
+        "value": "32"
+      },
+      {
+        "label": "Historical",
+        "value": "33"
+      },
+      {
+        "label": "Game",
+        "value": "34"
+      },
+      {
+        "label": "Shounen Ai",
+        "value": "35"
+      }
+    ],
+    "type": "Checkbox"
+  },
+  "country": {
+    "label": "Country",
+    "value": [],
+    "options": [
+      {
+        "label": "China",
+        "value": "1"
+      },
+      {
+        "label": "Japan",
+        "value": "2"
+      },
+      {
+        "label": "Korea",
+        "value": "3"
+      },
+      {
+        "label": "Other",
+        "value": "6"
+      }
+    ],
+    "type": "Checkbox"
+  }
+}
