@@ -5,7 +5,7 @@ plugins {
 yomikku {
     name = "NovelBuddy"
     className = ".NovelBuddy"
-    versionCode = 1
+    versionCode = 2
     source(name = "NovelBuddy", lang = "en", baseUrl = "https://novelbuddy.me")
 }
 

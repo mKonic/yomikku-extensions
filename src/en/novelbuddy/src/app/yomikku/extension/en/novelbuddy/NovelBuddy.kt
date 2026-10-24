@@ -63,7 +63,7 @@ class NovelBuddy : HttpSource() {
     override fun searchMangaRequest(page: Int, query: String, filters: FilterList): Request {
         val params = LnFilters.queryParams(filters).groupBy({ it.first }, { it.second })
         val url = searchUrl(page) {
-            if (query.isNotBlank()) addQueryParameter("q", query.trim())
+            if (query.isNotBlank()) addQueryParameter("q", clampQuery(query.trim()))
             params["orderBy"]?.firstOrNull()?.let { addQueryParameter("sort", it) }
             params["status"]?.firstOrNull()?.takeIf { it != "all" }?.let { addQueryParameter("status", it) }
             params["min_ch"]?.firstOrNull()?.chapterCount()?.let { addQueryParameter("min_ch", it) }
@@ -245,8 +245,16 @@ class NovelBuddy : HttpSource() {
     @Serializable
     private class ChapterPageProps(val initialChapter: Content? = null)
 
+    /** The search API answers HTTP 400 past [MAX_QUERY_LENGTH] characters. Never cut a surrogate pair in half. */
+    private fun clampQuery(query: String): String {
+        if (query.length <= MAX_QUERY_LENGTH) return query
+        val cut = query.take(MAX_QUERY_LENGTH)
+        return if (cut.last().isHighSurrogate()) cut.dropLast(1) else cut
+    }
+
     companion object {
         private const val PAGE_SIZE = 24
+        private const val MAX_QUERY_LENGTH = 50
         private val NEXT_DATA = Regex("""<script id="__NEXT_DATA__" type="application/json">(.*?)</script>""", RegexOption.DOT_MATCHES_ALL)
         private val WEBNOVEL_NOTICE = Regex(
             """Find authorized novels in Webnovel.*?faster updates, better experience.*?Please click www\.webnovel\.com for visiting\.""",
