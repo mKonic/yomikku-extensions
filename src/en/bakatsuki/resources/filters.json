@@ -1,0 +1,44 @@
+{
+  "status": {
+    "label": "Status",
+    "value": "",
+    "options": [
+      {
+        "label": "All",
+        "value": ""
+      },
+      {
+        "label": "Active",
+        "value": "Ongoing"
+      },
+      {
+        "label": "Completed",
+        "value": "Completed"
+      },
+      {
+        "label": "Stalled",
+        "value": "On Hiatus"
+      },
+      {
+        "label": "Inactive",
+        "value": "Inactive"
+      }
+    ],
+    "type": "Picker"
+  },
+  "order": {
+    "label": "Order",
+    "value": "asc",
+    "options": [
+      {
+        "label": "A → Z",
+        "value": "asc"
+      },
+      {
+        "label": "Z → A",
+        "value": "desc"
+      }
+    ],
+    "type": "Picker"
+  }
+}
