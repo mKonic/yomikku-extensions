@@ -1,14 +1,14 @@
 package app.yomikku.extension.en.lightnoveltranslations
 
 import eu.kanade.tachiyomi.network.GET
-import eu.kanade.tachiyomi.network.POST
 import eu.kanade.tachiyomi.source.model.FilterList
 import eu.kanade.tachiyomi.source.model.MangasPage
 import eu.kanade.tachiyomi.source.model.SChapter
 import eu.kanade.tachiyomi.source.model.SManga
 import eu.kanade.tachiyomi.source.online.HttpSource
 import eu.kanade.tachiyomi.util.asJsoup
-import okhttp3.FormBody
+import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.Request
 import okhttp3.Response
 
@@ -22,31 +22,41 @@ class LightNovelTranslations : HttpSource() {
 
     // Listings
 
-    override fun popularMangaRequest(page: Int) = GET("$baseUrl/read/page/$page/?sortby=most-liked", headers)
+    override fun popularMangaRequest(page: Int) = browseRequest(page) { addQueryParameter("sortby", "most-liked") }
 
     override fun popularMangaParse(response: Response) = novelsParse(response)
 
-    override fun latestUpdatesRequest(page: Int) = GET("$baseUrl/read/page/$page/?sortby=most-recent", headers)
+    override fun latestUpdatesRequest(page: Int) = browseRequest(page) { addQueryParameter("sortby", "most-recent") }
 
     override fun latestUpdatesParse(response: Response) = novelsParse(response)
 
     override fun searchMangaRequest(page: Int, query: String, filters: FilterList): Request =
-        POST("$baseUrl/read/", headers, FormBody.Builder().add("field-search", query.trim()).build())
+        browseRequest(page) { addQueryParameter("search", query.trim()) }
 
-    override fun searchMangaParse(response: Response) = novelsParse(response).let { MangasPage(it.mangas, false) }
+    override fun searchMangaParse(response: Response) = novelsParse(response)
+
+    private fun browseRequest(page: Int, build: HttpUrl.Builder.() -> Unit): Request {
+        val url = "$baseUrl/browse/".toHttpUrl().newBuilder()
+            .apply { if (page > 1) addQueryParameter("paged", page.toString()) }
+            .apply(build)
+            .build()
+        return GET(url, headers)
+    }
 
     private fun novelsParse(response: Response): MangasPage {
         val document = response.asJsoup()
-        val novels = document.select("div.read_list-story-item").mapNotNull { item ->
+        val novels = document.select(".read_list-story-item").mapNotNull { item ->
             val link = item.selectFirst(".item_thumb a[href]") ?: return@mapNotNull null
             SManga.create().apply {
                 url = link.absUrl("href").removePrefix(baseUrl).substringBefore('?')
-                title = link.attr("title").ifBlank { link.text() }.trim()
+                title = link.attr("aria-label")
+                    .ifBlank { item.selectFirst(".wrap_item_content h3")?.text().orEmpty() }
+                    .ifBlank { link.attr("title") }
+                    .trim()
                 thumbnail_url = item.selectFirst(".item_thumb img")?.absUrl("src")
             }
         }
-        val page = PAGE.find(response.request.url.encodedPath)?.groupValues?.get(1)?.toIntOrNull() ?: 1
-        val hasNext = document.selectFirst("a[href*=/read/page/${page + 1}/]") != null
+        val hasNext = document.selectFirst("a.next.page-numbers") != null
         return MangasPage(novels, hasNext)
     }
 
@@ -95,7 +105,6 @@ class LightNovelTranslations : HttpSource() {
     }
 
     companion object {
-        private val PAGE = Regex("""/page/(\d+)""")
         private val CHAPTER_NUMBER = Regex("""(?i)chapter\s*(\d+(?:\.\d+)?)""")
     }
 }
