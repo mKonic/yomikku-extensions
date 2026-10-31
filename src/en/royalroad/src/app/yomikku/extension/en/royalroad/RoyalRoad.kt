@@ -1,5 +1,6 @@
 package app.yomikku.extension.en.royalroad
 
+import app.yomikku.lib.anubis.AnubisInterceptor
 import app.yomikku.lib.lnfilters.LnFilters
 import eu.kanade.tachiyomi.network.GET
 import eu.kanade.tachiyomi.source.model.FilterList
@@ -12,6 +13,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
+import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import java.text.SimpleDateFormat
@@ -25,6 +27,11 @@ class RoyalRoad : HttpSource() {
     override val baseUrl = "https://www.royalroad.com"
     override val lang = "en"
     override val supportsLatest = true
+
+    // Royal Road puts an Anubis proof-of-work check in front of its pages.
+    override val client: OkHttpClient = network.client.newBuilder()
+        .addInterceptor(AnubisInterceptor())
+        .build()
 
     private val json = Json { ignoreUnknownKeys = true }
 
