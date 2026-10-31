@@ -163,7 +163,13 @@ abstract class NovelFire(
     // Text
 
     override fun chapterTextParse(response: Response): String {
-        val document = response.asJsoup().also { it.checkCloudflare() }
+        var document = response.asJsoup().also { it.checkCloudflare() }
+        // Chapters may go to a mirror whose "Loading..." page forwards by script.
+        if (document.selectFirst("#content") == null) {
+            JS_REDIRECT.find(document.select("script").html())?.groupValues?.get(1)?.replace("\\/", "/")?.let { target ->
+                document = client.newCall(GET(target, headers)).execute().use { it.asJsoup() }.also { it.checkCloudflare() }
+            }
+        }
         val content = document.selectFirst("#content") ?: throw Exception("Chapter text not found, try again")
         content.select("script, style, ins, noscript, iframe").remove()
         // The site slips made-up elements (<nf...>) carrying watermark text into chapters.
@@ -172,6 +178,8 @@ abstract class NovelFire(
     }
 
     companion object {
+        private val JS_REDIRECT = Regex("""window\.location\.href\s*=\s*["']([^"']+)["']""")
+
         /** Filter keys as LNReader names them, and the search-adv parameter each one sets. */
         private val PARAMS = mapOf(
             "language" to "country_id[]",
