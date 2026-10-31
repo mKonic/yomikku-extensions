@@ -1,0 +1,216 @@
+{
+  "genre": {
+    "type": "Picker",
+    "label": "Genre",
+    "value": "",
+    "options": [
+      {
+        "label": "All",
+        "value": ""
+      },
+      {
+        "label": "Action",
+        "value": "action"
+      },
+      {
+        "label": "Adventure",
+        "value": "adventure"
+      },
+      {
+        "label": "Comedy",
+        "value": "comedy"
+      },
+      {
+        "label": "Drama",
+        "value": "drama"
+      },
+      {
+        "label": "Eastern",
+        "value": "eastern"
+      },
+      {
+        "label": "Fan Fiction",
+        "value": "fan-fiction"
+      },
+      {
+        "label": "Fantasy",
+        "value": "fantasy"
+      },
+      {
+        "label": "Game",
+        "value": "game"
+      },
+      {
+        "label": "Harem",
+        "value": "harem"
+      },
+      {
+        "label": "Historical",
+        "value": "historical"
+      },
+      {
+        "label": "Horror",
+        "value": "horror"
+      },
+      {
+        "label": "Isekai",
+        "value": "isekai"
+      },
+      {
+        "label": "Josei",
+        "value": "josei"
+      },
+      {
+        "label": "Litrpg",
+        "value": "litrpg"
+      },
+      {
+        "label": "Magic",
+        "value": "magic"
+      },
+      {
+        "label": "Magical Realism",
+        "value": "magical-realism"
+      },
+      {
+        "label": "Martial Arts",
+        "value": "martial-arts"
+      },
+      {
+        "label": "Mature",
+        "value": "mature"
+      },
+      {
+        "label": "Mecha",
+        "value": "mecha"
+      },
+      {
+        "label": "Military",
+        "value": "military"
+      },
+      {
+        "label": "Modern Life",
+        "value": "modern-life"
+      },
+      {
+        "label": "Mystery",
+        "value": "mystery"
+      },
+      {
+        "label": "Other",
+        "value": "other"
+      },
+      {
+        "label": "Psychological",
+        "value": "psychological"
+      },
+      {
+        "label": "Reincarnation",
+        "value": "reincarnation"
+      },
+      {
+        "label": "Romance",
+        "value": "romance"
+      },
+      {
+        "label": "School Life",
+        "value": "school-life"
+      },
+      {
+        "label": "Sci Fi",
+        "value": "sci-fi"
+      },
+      {
+        "label": "Seinen",
+        "value": "seinen"
+      },
+      {
+        "label": "Shoujo",
+        "value": "shoujo"
+      },
+      {
+        "label": "Shoujo Ai",
+        "value": "shoujo-ai"
+      },
+      {
+        "label": "Shounen",
+        "value": "shounen"
+      },
+      {
+        "label": "Shounen Ai",
+        "value": "shounen-ai"
+      },
+      {
+        "label": "Slice Of Life",
+        "value": "slice-of-life"
+      },
+      {
+        "label": "Sports",
+        "value": "sports"
+      },
+      {
+        "label": "Supernatural",
+        "value": "supernatural"
+      },
+      {
+        "label": "System",
+        "value": "system"
+      },
+      {
+        "label": "Thriller",
+        "value": "thriller"
+      },
+      {
+        "label": "Tragedy",
+        "value": "tragedy"
+      },
+      {
+        "label": "Urban",
+        "value": "urban"
+      },
+      {
+        "label": "War",
+        "value": "war"
+      },
+      {
+        "label": "Wuxia",
+        "value": "wuxia"
+      },
+      {
+        "label": "Xianxia",
+        "value": "xianxia"
+      },
+      {
+        "label": "Xuanhuan",
+        "value": "xuanhuan"
+      },
+      {
+        "label": "Yaoi",
+        "value": "yaoi"
+      },
+      {
+        "label": "Yuri",
+        "value": "yuri"
+      }
+    ]
+  },
+  "status": {
+    "type": "Picker",
+    "label": "Status (ignored when a genre is selected)",
+    "value": "",
+    "options": [
+      {
+        "label": "All",
+        "value": ""
+      },
+      {
+        "label": "Ongoing",
+        "value": "ongoing"
+      },
+      {
+        "label": "Completed",
+        "value": "completed"
+      }
+    ]
+  }
+}
