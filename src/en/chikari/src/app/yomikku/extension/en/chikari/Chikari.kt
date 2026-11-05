@@ -34,7 +34,9 @@ class Chikari : HttpSource() {
     // Listings
 
     private fun novelsRequest(page: Int, sort: String, build: okhttp3.HttpUrl.Builder.() -> Unit = {}): Request {
-        val url = "$baseUrl/api/novels".toHttpUrl().newBuilder()
+        // Listings moved to /api/series, which also holds other kinds of series.
+        val url = "$baseUrl/api/series".toHttpUrl().newBuilder()
+            .addQueryParameter("type", "novel")
             .addQueryParameter("sort", sort)
             .addQueryParameter("limit", PAGE_SIZE.toString())
             .addQueryParameter("offset", ((page - 1) * PAGE_SIZE).toString())

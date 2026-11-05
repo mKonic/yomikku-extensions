@@ -5,7 +5,7 @@ plugins {
 yomikku {
     name = "Chikari"
     className = ".Chikari"
-    versionCode = 1
+    versionCode = 2
     source(name = "Chikari", lang = "en", baseUrl = "https://chikari.moe")
 }
 
