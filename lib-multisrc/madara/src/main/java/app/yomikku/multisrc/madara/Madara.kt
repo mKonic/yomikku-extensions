@@ -147,7 +147,7 @@ abstract class Madara(
             response.body.string().takeUnless { it == "0" } ?: page.outerHtml()
         }
         val document = Jsoup.parse(html, baseUrl)
-        return document.select(".wp-manga-chapter").mapNotNull { element ->
+        return MadaraChapters.newestFirst(document).mapNotNull { element ->
             val link = element.selectFirst("a") ?: return@mapNotNull null
             val href = link.absUrl("href").takeUnless { it.isBlank() || it.endsWith("#") } ?: return@mapNotNull null
             val locked = element.hasClass("premium-block")
